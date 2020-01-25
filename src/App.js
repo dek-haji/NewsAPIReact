@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 
+
+import './App.css';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -10,38 +10,37 @@ class App extends Component {
       isLoaded: false,
     }
    // this.getQuotes = this this.getQuotes.bind(this);
+   console.log(this.state.quotes)
   }
   componentDidMount() {
+    
     fetch("https://api-v2.intrinio.com/companies/AAPL?api_key=OjEzYzBiMGM5NmU4NzZiNzFkN2ZkMzNkNWEzYjc5MjRl").then(response => response.json())
-        .then(text1 => {
+        .then(response => {
           this.setState({
             isLoaded: true,
-            quotes: text1,
+            quotes: [response]
           })
         });
   }
   render() {
     console.log(this.state.quotes)
-    const { isLoaded, quotes } = this.state;
-    if (!isLoaded) {
-      return <div>Loading....</div>;
-    }
-    else {
+   let  data1 = Array.from(this.state.quotes)
+    //const { isLoaded, quotes } = Array.from(this.state);
       return (
         <div className="App">
           <ul>
-            {quotes.map(item => (
-              <li key={item.id}>
+            {data1.map(item => (
+              <card key={item.id}>
+                <h1>{item.name}</h1>
+                <p>{item.short_description}</p>
                 
-                  { item.short_description }
-                
-              </li>
+              </card>
             ))};
         </ul>
         </div>
       )
     }
   }
-}
+
 
 export default App;
