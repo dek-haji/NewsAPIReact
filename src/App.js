@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import News from "./News"
+import Db from "./Db"
 
 import './App.css';
 class App extends Component {
@@ -12,15 +13,19 @@ class App extends Component {
    // this.getQuotes = this this.getQuotes.bind(this);
    console.log(this.state.quotes)
   }
+
+   dataB() {
+    fetch("https://api-v2.intrinio.com/companies/AAPL?api_key=OjEzYzBiMGM5NmU4NzZiNzFkN2ZkMzNkNWEzYjc5MjRl").then(response => response.json())
+      .then(response => {
+        this.setState({
+          isLoaded: true,
+          quotes: [response]
+        })
+      })
+  }
   componentDidMount() {
     
-    fetch("https://api-v2.intrinio.com/companies/AAPL?api_key=OjEzYzBiMGM5NmU4NzZiNzFkN2ZkMzNkNWEzYjc5MjRl").then(response => response.json())
-        .then(response => {
-          this.setState({
-            isLoaded: true,
-            quotes: [response]
-          })
-        });
+   this.dataB()
   }
   render() {
     console.log(this.state.quotes)
@@ -28,15 +33,7 @@ class App extends Component {
     //const { isLoaded, quotes } = Array.from(this.state);
       return (
         <div className="App">
-          <ul>
-            {data1.map(item => (
-              <card key={item.id}>
-                <h1>{item.name}</h1>
-                <p>{item.short_description}</p>
-                
-              </card>
-            ))};
-        </ul>
+            <News data2= {data1} />
         </div>
       )
     }
